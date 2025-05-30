@@ -49,7 +49,7 @@ projet-asd-devops/
 - [x] Initialisation du dépôt Git
 - [x] Infrastructure de base avec Terraform
 - [x] Connexion SSH sécurisée via clé générée
-- [ ] Configuration automatique avec Ansible
+- [X] Configuration automatique avec Ansible
 - [ ] Déploiement de containers Docker
 - [ ] Mise en place d’un système de supervision
 - [ ] Rédaction complète du dossier de projet
@@ -58,7 +58,7 @@ projet-asd-devops/
 
 ## Auteur
 
-**Mathis DIZET** – Étudiant ENI – Parcours Administrateur Systèmes DevOps  
+**Mathis DIZET** – Étudiant ENI – Parcours Administrateur Systèmes DevOps
 Projet réalisé en autonomie dans un cadre pédagogique.
 
 ---
