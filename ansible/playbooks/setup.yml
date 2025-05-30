@@ -1,0 +1,7 @@
+---
+- name: Configuration machine EC2
+  hosts: dev
+  become: yes
+  tasks:
+    - name: Ping pour test de connexion
+      ping:
