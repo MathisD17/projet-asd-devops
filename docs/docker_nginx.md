@@ -1,13 +1,12 @@
 # Déploiement de Nginx avec Docker et Ansible
 
 ## Objectif
-Déployer automatiquement un conteneur Nginx personnalisé sur la machine EC2.
+Déployer automatiquement un conteneur Nginx personnalisé sur la machine EC2 provisionnée avec Terraform.
 
 ---
 
 ## Structure des fichiers
 
-```
 projet-asd-devops/
 ├── docker/
 │   └── nginx/
@@ -19,74 +18,26 @@ projet-asd-devops/
 │   │   └── hosts.ini
 │   └── playbooks/
 │       └── deploy_nginx.yml
-```
 
 ---
 
 ## Fichiers importants
 
-### Dockerfile (`docker/nginx/Dockerfile`)
-```Dockerfile
-FROM nginx:latest
-COPY ./html /usr/share/nginx/html
-```
-
-### index.html (`docker/nginx/html/index.html`)
-
-### Playbook Ansible (`ansible/playbooks/deploy_nginx.yml`)
-```yaml
-- name: Déploiement du container Nginx
-  hosts: dev
-  become: yes
-
-  vars:
-    nginx_path: /home/ubuntu/nginx
-
-  tasks:
-    - name: Créer le dossier nginx sur l'EC2
-      file:
-        path: "{{ nginx_path }}"
-        state: directory
-        mode: '0755'
-
-    - name: Copier les fichiers Docker (Dockerfile + html/)
-      copy:
-        src: "{{ item }}"
-        dest: "{{ nginx_path }}/"
-        mode: '0644'
-      with_fileglob:
-        - "../../docker/nginx/*"
-
-    - name: Copier le dossier html/ séparément (récursif)
-      copy:
-        src: "../../docker/nginx/html"
-        dest: "{{ nginx_path }}/"
-        mode: '0644'
-
-    - name: Lancer le container Docker Nginx
-      docker_container:
-        name: nginx-asd
-        image: nginx:latest
-        state: started
-        restart_policy: always
-        published_ports:
-          - "80:80"
-        volumes:
-          - "{{ nginx_path }}/html:/usr/share/nginx/html:ro"
-```
+- Dockerfile : définit une image basée sur nginx:latest et copie le contenu HTML personnalisé.
+- index.html : page d’accueil affichée sur le serveur Nginx.
+- deploy_nginx.yml : playbook Ansible pour copier les fichiers nécessaires sur l’EC2 et lancer un container Nginx.
 
 ---
 
-## Commande de déploiement
+## Déploiement
 
-```bash
-ansible-playbook -i inventories/hosts.ini playbooks/deploy_nginx.yml
-```
+Le playbook Ansible est exécuté pour :
+1. Créer un répertoire distant pour stocker les fichiers.
+2. Copier le Dockerfile et le contenu HTML.
+3. Lancer un container Docker avec volume monté sur `/usr/share/nginx/html`.
 
 ---
 
 ## Résultat attendu
 
-Accès à la page WEB del'instance
-
----
+Une fois le déploiement terminé, la page web personnalisée est accessible via l’IP publique de l’instance.
