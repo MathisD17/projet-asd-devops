@@ -1,0 +1,35 @@
+- name: Déploiement de Prometheus
+  hosts: dev
+  become: yes
+
+  vars:
+    prometheus_path: /home/ubuntu/prometheus
+
+  tasks:
+    - name: Créer le dossier Prometheus sur l'EC2
+      file:
+        path: "{{ prometheus_path }}"
+        state: directory
+        mode: '0755'
+
+    - name: Copier le Dockerfile et le fichier de config Prometheus
+      copy:
+        src: "../../monitoring/prometheus/"
+        dest: "{{ prometheus_path }}/"
+        mode: '0644'
+
+    - name: Builder l’image Docker Prometheus
+      community.docker.docker_image:
+        name: custom-prometheus
+        build:
+          path: "{{ prometheus_path }}"
+        source: build
+
+    - name: Lancer le container Docker Prometheus
+      docker_container:
+        name: prometheus
+        image: custom-prometheus
+        state: started
+        restart_policy: always
+        published_ports:
+          - "9090:9090"

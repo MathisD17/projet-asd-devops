@@ -1,0 +1,35 @@
+- name: Déploiement de Grafana
+  hosts: dev
+  become: yes
+
+  vars:
+    grafana_path: /home/ubuntu/grafana
+
+  tasks:
+    - name: Créer le dossier Grafana sur l'EC2
+      file:
+        path: "{{ grafana_path }}"
+        state: directory
+        mode: '0755'
+
+    - name: Copier le Dockerfile Grafana
+      copy:
+        src: "../../monitoring/grafana/"
+        dest: "{{ grafana_path }}/"
+        mode: '0644'
+
+    - name: Builder l’image Docker Grafana
+      community.docker.docker_image:
+        name: custom-grafana
+        build:
+          path: "{{ grafana_path }}"
+        source: build
+
+    - name: Lancer le container Docker Grafana
+      docker_container:
+        name: grafana
+        image: custom-grafana
+        state: started
+        restart_policy: always
+        published_ports:
+          - "3000:3000"
