@@ -4,35 +4,65 @@
 
 Mettre en œuvre une infrastructure Cloud hybride **automatisée**, **sécurisée**, et **supervisée** dans un environnement simulé, dans le cadre de la formation Administrateur Systèmes DevOps (ASD) à l'ENI.
 
-Ce projet n’est pas rattaché à une entreprise réelle mais suit un scénario de déploiement type professionnel.
-
----
+> Important : Ce projet n'est pas en lien avec l'entreprise d'alternance (BT2i Group), mais s'inscrit dans un contexte pédagogique.
 
 ## Technologies et outils utilisés
 
-- **AWS** : Fournisseur Cloud (EC2, VPC, etc.)
-- **Terraform** : Infrastructure as Code (IaC)
-- **Ansible** : Déploiement et configuration automatisée
-- **Docker** : Containerisation
-- **Prometheus + Grafana** : Supervision et monitoring
-- **Git + GitHub** : Versionnement
-- **Linux (Ubuntu)** : OS pour les serveurs
+| Technologies       | Description                  |
+|--------------------|------------------------------------|
+| Infrastructure     | Terraform                          |
+| Configuration      | Ansible                            |
+| Conteneurisation   | Docker                             |
+| Monitoring         | Prometheus, Grafana, Node Exporter |
+| Cloud              | AWS (EC2, VPC, etc.)               |
+| OS                 | Ubuntu Server                      |
+| Versionning        | Git + GitHub                       |
 
----
+## Arborescence du projet
 
-## Structure du projet
-
-```bash
-projet-asd-devops/
-├── infra-terraform/       # Infrastructure AWS avec Terraform
-├── ansible/               # Playbooks et inventaire Ansible
-├── docker/                # Dockerfiles et docker-compose.yml
-├── docs/                  # Documentation technique (SSH, Terraform, etc.)
-├── captures/              # Captures d'écran pour le dossier de projet
-└── README.md              # Présentation du projet
 ```
-
----
+projet-asd-devops/
+├── ansible/
+│   ├── ansible.cfg
+│   ├── inventories/
+│   │   └── hosts.ini
+│   ├── playbooks/
+│   │   ├── install_docker.yml
+│   │   ├── deploy_nginx.yml
+│   │   ├── deploy_prometheus.yml
+│   │   ├── deploy_grafana.yml
+│   │   ├── setup.yml
+│   │   ├── update_prometheus_config.yml
+│   │   └── deploy_node_exporter.yml
+│   └── roles
+│       └── node_exporter
+│           ├── files
+│           └── tasks
+│               └── main.yml
+├── docker
+│   └── nginx
+│       ├── Dockerfile
+│       └── html
+│           └── index.html
+├── infra-terraform/
+│   ├── main.tf
+│   ├── outputs.tf
+│   ├── variables.tf
+├── docs
+│   ├── ansible_doc.md
+│   ├── ansible_docker_install.md
+│   ├── docker_nginx.md
+│   ├── monitoring_node_exporter.md
+│   ├── monitoring_prometheus_grafana.md
+│   ├── ssh_access.md
+│   └── terraform_instance.md
+└── monitoring
+    ├── grafana
+    │   └── Dockerfile
+    └── prometheus
+        ├── Dockerfile
+        └── prometheus.yml
+```
 
 ## Fonctionnalités clés
 
@@ -44,25 +74,24 @@ projet-asd-devops/
 
 ---
 
+## Accès aux services
+
+| Service     | Port  | URL                           |
+|-------------|-------|--------------------------------|
+| Prometheus  | 9090  | http://<ip-ec2>:9090          |
+| Grafana     | 3000  | http://<ip-ec2>:3000          |
+| Nginx       | 80    | http://<ip-ec2>               |
+
+
 ## Avancement
 
 - [x] Initialisation du dépôt Git
 - [x] Infrastructure de base avec Terraform
 - [x] Connexion SSH sécurisée via clé générée
 - [X] Configuration automatique avec Ansible
-- [ ] Déploiement de containers Docker
-- [ ] Mise en place d’un système de supervision
+- [X] Déploiement de containers Docker
+- [X] Mise en place d’un système de supervision
 - [ ] Rédaction complète du dossier de projet
 
----
-
-## Auteur
-
+## Auteurs
 **Mathis DIZET** – Étudiant ENI – Parcours Administrateur Systèmes DevOps
-Projet réalisé en autonomie dans un cadre pédagogique.
-
----
-
-## Notes
-
-Le dossier `.terraform/` et les fichiers `.pem`, `.tfstate` et d'autres fichier sensible sont **exclus du dépôt** pour des raisons de sécurité.
