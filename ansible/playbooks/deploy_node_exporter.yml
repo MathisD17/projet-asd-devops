@@ -1,0 +1,6 @@
+---
+- name: Déploiement de Node Exporter sur l'EC2
+  hosts: dev
+  become: yes
+  roles:
+    - node_exporter

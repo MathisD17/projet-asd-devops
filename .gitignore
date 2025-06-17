@@ -1,4 +1,17 @@
+# Terraform
+*.tfstate
+*.tfstate.*
 .terraform/
-terraform.tfstate
-terraform.tfstate.backup
-*.tfvars
+
+# Ansible
+*.retry
+
+# cle ou autre fichier de connexion
+*.pem
+*.key
+
+# Logs et autre
+*.log
+__pycache__/
+*.swp
+.DS_Store
