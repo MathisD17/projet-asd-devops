@@ -1,43 +1,36 @@
-# Déploiement de Nginx avec Docker et Ansible
+# Déploiement de Nginx avec Docker
+
+Ce document détaille la procédure utilisée pour construire et déployer un container Docker Nginx personnalisé.
 
 ## Objectif
-Déployer automatiquement un conteneur Nginx personnalisé sur la machine EC2 provisionnée avec Terraform.
 
----
+Servir une page web statique via un container Nginx lancé depuis une machine EC2.
 
-## Structure des fichiers
+## Arborescence du projet
 
-projet-asd-devops/
-├── docker/
-│   └── nginx/
-│       ├── Dockerfile
-│       └── html/
-│           └── index.html
-├── ansible/
-│   ├── inventories/
-│   │   └── hosts.ini
-│   └── playbooks/
-│       └── deploy_nginx.yml
+```
+docker/
+└── nginx/
+    ├── Dockerfile
+    └── html/
+        └── index.html
+```
 
----
+## Contenu du `Dockerfile`
 
-## Fichiers importants
+Le `Dockerfile` contient une image basée sur `nginx:latest`, dans laquelle on copie le contenu statique à exposer.
 
-- Dockerfile : définit une image basée sur nginx:latest et copie le contenu HTML personnalisé.
-- index.html : page d’accueil affichée sur le serveur Nginx.
-- deploy_nginx.yml : playbook Ansible pour copier les fichiers nécessaires sur l’EC2 et lancer un container Nginx.
+## Commandes utilisées
 
----
+Sur la machine EC2 cible :
 
-## Déploiement
+```bash
+docker build -t custom-nginx ./docker/nginx
+docker run -d -p 80:80 --name nginx custom-nginx
+```
 
-Le playbook Ansible est exécuté pour :
-1. Créer un répertoire distant pour stocker les fichiers.
-2. Copier le Dockerfile et le contenu HTML.
-3. Lancer un container Docker avec volume monté sur `/usr/share/nginx/html`.
-
----
+> Remarque : Le port 80 doit être ouvert dans le Security Group AWS de l’instance EC2 pour permettre un accès HTTP.
 
 ## Résultat attendu
 
-Une fois le déploiement terminé, la page web personnalisée est accessible via l’IP publique de l’instance.
+En accédant à l’adresse publique de l’instance EC2 via un navigateur (ex: `http://<IP_EC2>`), on voit le contenu de la page `index.html` personnalisée.

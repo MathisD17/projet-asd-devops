@@ -1,63 +1,60 @@
-# Documentation Ansible – Projet DevOps ASD
+# Documentation Ansible 
 
 ## Objectif
 
-Utiliser Ansible pour automatiser la configuration de l’instance EC2 provisionnée avec Terraform.
+Configurer automatiquement des services sur la machine EC2 à l'aide d'Ansible.
 
----
-
-## Structure des fichiers
+## Structure
 
 ```
 ansible/
+├── ansible.cfg
 ├── inventories/
-│   └── hosts.ini         # Inventaire des hôtes
+│   └── hosts.ini
 ├── playbooks/
-│   └── setup.yml         # Playbook initial pour test de connexion
-└── roles/                # (À venir) Rôles Ansible réutilisables
+│   ├── setup.yml
+│   ├── install_docker.yml
+│   ├── deploy_nginx.yml
+│   ├── deploy_prometheus.yml
+│   ├── deploy_grafana.yml
+│   ├── deploy_node_exporter.yml
+│   └── update_prometheus_config.yml
+└── roles/
+    └── node_exporter/
+        ├── files/
+        └── tasks/
+            └── main.yml
 ```
 
----
-
-## Inventaire – hosts.ini
-
-Fichier : ansible/inventories/hosts.ini
+## Fichier d'inventaire : `inventories/hosts.ini`
 
 ```ini
 [dev]
-<ip_public_ec2> ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/terraform-key.pem
+<IP_EC2> ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/id_rsa
 ```
 
----
-
-## Playbook – setup.yml
-
-Fichier : ansible/playbooks/setup.yml
-
-```yaml
----
-- name: Configuration initiale de la machine EC2
-  hosts: dev
-  become: yes
-  tasks:
-    - name: Ping pour test de connexion
-      ping:
-```
-
----
-
-## Exécution du playbook
-
-Commande à exécuter depuis le dossier ansible/ :
+## Commande de test (setup.yml)
 
 ```bash
 ansible-playbook -i inventories/hosts.ini playbooks/setup.yml
 ```
 
----
+## Installation de Docker avec Ansible
 
-## Résultat attendu
+```bash
+ansible-playbook -i inventories/hosts.ini playbooks/install_docker.yml
+```
 
-Réponse SUCCESS de la machine EC2 indiquant que la connexion SSH est fonctionnelle et que le playbook peut exécuter des tâches à distance.
+### Vérification
 
----
+```bash
+docker --version
+sudo systemctl status docker
+```
+
+## Déploiement des services
+
+- `deploy_nginx.yml` : déploie un container Nginx avec page HTML
+- `deploy_prometheus.yml` : expose Prometheus sur port 9090
+- `deploy_grafana.yml` : expose Grafana sur port 3000
+- `deploy_node_exporter.yml` : installe node_exporter sur l'EC2
