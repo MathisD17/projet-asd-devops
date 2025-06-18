@@ -1,12 +1,10 @@
-# Déploiement de Nginx avec Docker
-
-Ce document détaille la procédure utilisée pour construire et déployer un container Docker Nginx personnalisé.
+# Déploiement Nginx via Docker
 
 ## Objectif
 
-Servir une page web statique via un container Nginx lancé depuis une machine EC2.
+Déployer une page web sur l'instance EC2 à l’aide d’un container Docker Nginx.
 
-## Arborescence du projet
+## Arborescence du répertoire
 
 ```
 docker/
@@ -16,21 +14,17 @@ docker/
         └── index.html
 ```
 
-## Contenu du `Dockerfile`
+## Description des fichiers
 
-Le `Dockerfile` contient une image basée sur `nginx:latest`, dans laquelle on copie le contenu statique à exposer.
+- `Dockerfile` : Définit une image basée sur `nginx:latest`. Il copie les fichiers depuis `html/` vers le dossier `/usr/share/nginx/html` de l'instance.
+- `html/index.html` : Page HTML qui sera déployé sur l'instance.
 
-## Commandes utilisées
+## Deploiement
 
-Sur la machine EC2 cible :
+Le deploiement ce fait automatiquement avec Ansible via le playbook `deploy_nginx.yml`.
 
-```bash
-docker build -t custom-nginx ./docker/nginx
-docker run -d -p 80:80 --name nginx custom-nginx
-```
-
-> Remarque : Le port 80 doit être ouvert dans le Security Group AWS de l’instance EC2 pour permettre un accès HTTP.
+> Le port 80 a été activé mannuelement dans le groupe de sécurité "ssh-only"
 
 ## Résultat attendu
 
-En accédant à l’adresse publique de l’instance EC2 via un navigateur (ex: `http://<IP_EC2>`), on voit le contenu de la page `index.html` personnalisée.
+Accès depuis un navigateur à la page de la machine EC2 en `HTTP`
