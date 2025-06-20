@@ -78,9 +78,9 @@ projet-asd-devops/
 
 | Service     | Port  | URL                          |
 |-------------|-------|------------------------------|
-| Prometheus  | 9090  | http://IP_PUBLIC_EC2:9090    |
-| Grafana     | 3000  | http://IP_PUBLIC_EC2:3000    |
-| Nginx       | 80    | http://IP_PUBLIC_EC2         |
+| Prometheus  | 9090  | http://ip_public_ec2:9090    |
+| Grafana     | 3000  | http://ip_public_ec2:3000    |
+| Nginx       | 80    | http://ip_public_ec2         |
 
 
 ## Avancement
