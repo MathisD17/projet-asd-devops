@@ -50,9 +50,9 @@ L’ajout de Prometheus comme source de données se fait dans l’interface Graf
 
 | Service        | Port  | URL                            |
 |----------------|-------|--------------------------------|
-| Prometheus     | 9090  | http://<IP_EC2>:9090           |
-| Grafana        | 3000  | http://<IP_EC2>:3000           |
-| Node Exporter  | 9100  | http://<IP_EC2>:9100/metrics   |
+| Prometheus     | 9090  | http://ip_public_ec2:9090      |
+| Grafana        | 3000  | http://ip_public_ec2:3000      |
+| Node Exporter  | 9100  | http://ip_public_ec2:9100      |
 
 ## Sécurité
 
