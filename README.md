@@ -68,9 +68,9 @@ projet-asd-devops/
 
 - Création automatique d’une VM sur AWS via Terraform
 - Génération de paire de clés SSH pour sécuriser l'accès
-- Configuration automatisée avec Ansible (à venir)
-- Déploiement de services dans des containers Docker (à venir)
-- Supervision des services avec Prometheus et Grafana (à venir)
+- Configuration automatisée avec Ansible
+- Déploiement de services dans des containers Docker
+- Supervision des services avec Prometheus et Grafana
 
 ---
 
@@ -91,7 +91,7 @@ projet-asd-devops/
 - [X] Configuration automatique avec Ansible
 - [X] Déploiement de containers Docker
 - [X] Mise en place d’un système de supervision
-- [ ] Rédaction complète du dossier de projet
+- [X] Rédaction complète du dossier de projet
 
 ## Auteurs
 **Mathis DIZET** – Étudiant ENI – Parcours Administrateur Systèmes DevOps
